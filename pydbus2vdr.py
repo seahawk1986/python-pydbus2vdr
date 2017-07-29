@@ -360,61 +360,61 @@ class DBus2VDR(object):
             """
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeAskUserSelect(self, signal, callback):
-            return self._subscribeSignal(object="/Status",
-                                         interface=".status",
+        def subscribeAskUserSelect(self, callback):
+            return self._subscribeSignal(object="/Remote",
+                                         interface=".remote",
                                          signal="AskUserSelect",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeChannelSwitch(self, signal, callback):
+        def subscribeChannelSwitch(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="ChannelSwitch",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeRecording(self, signal, callback):
+        def subscribeRecording(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="Recording",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeReplaying(self, signal, callback):
+        def subscribeReplaying(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="Replaying",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeSetAudioChannel(self, signal, callback):
+        def subscribeSetAudioChannel(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="SetAudioChannel",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeSetAudioTrack(self, signal, callback):
+        def subscribeSetAudioTrack(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="SetAudioTrack",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeSetSubtitleTrack(self, signal, callback):
+        def subscribeSetSubtitleTrack(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="SetSubtitleTrack",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeSetVolume(self, signal, callback):
+        def subscribeSetVolume(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="SetVolume",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
-        def subscribeTimerChange(self, signal, callback):
+        def subscribeTimerChange(self, callback):
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
                                          signal="TimerChange",
-                                         fire_signal=callback)
+                                         signal_fired=callback)
 
         def subscribeVDRStatus(self, callback):
             return self._subscribeSignal(object="/vdr",
@@ -488,7 +488,8 @@ class DBus2VDR(object):
         if not self.isinitialized:
             for item in ("_Plugins", "_Remote", "_Recordings", "_VDR",
                          "_Timers", "_Status", "_Skin", "_Shutdown",
-                         "_Devices", "_EPG", "_Setup", "_Channels"):
+                         "_Devices", "_EPG", "_Signals", "_Setup",
+                         "_Channels"):
                 obj = getattr(self, item)(bus=self.bus)
                 setattr(self, item.lstrip("_"), obj)
             self.isinitialized = True
