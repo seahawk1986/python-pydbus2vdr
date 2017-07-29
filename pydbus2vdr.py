@@ -4,7 +4,7 @@ from distutils.util import strtobool
 import pydbus
 from gi.repository import GLib
 # for some reason the current pydbus version doesn't provide Variant, so we
-# need to import it
+# need to import it explicitly
 from gi.repository.GLib import Variant
 
 
@@ -356,10 +356,16 @@ class DBus2VDR(object):
             Subscribe to all Status signals. The given callback function must
             acept the following arguments: sender, object, iface, signal, params
             returns a subscription object. Use it's unsubscribe() method (or a
-            context manager like with) to stop receiving signals.
+            context manager like with) to stop receiving signals when done.
             """
             return self._subscribeSignal(object="/Status",
                                          interface=".status",
+                                         fire_signal=callback)
+
+        def subscribeAskUserSelect(self, signal, callback):
+            return self._subscribeSignal(object="/Status",
+                                         interface=".status",
+                                         signal="AskUserSelect",
                                          fire_signal=callback)
 
         def subscribeChannelSwitch(self, signal, callback):
@@ -420,22 +426,19 @@ class DBus2VDR(object):
             return self._subscribeSignal(object="/vdr",
                                          interface=".vdr",
                                          signal="Ready",
-                                         signal_fired=callback
-                                         )
+                                         signal_fired=callback)
 
         def subscribeVDRStart(self, callback):
             return self._subscribeSignal(object="/vdr",
                                          interface=".vdr",
                                          signal="Start",
-                                         signal_fired=callback
-                                         )
+                                         signal_fired=callback)
 
         def subscribeVDRStop(self, callback):
             return self._subscribeSignal(object="/vdr",
                                          interface=".vdr",
                                          signal="Stop",
-                                         signal_fired=callback
-                                         )
+                                         signal_fired=callback)
 
     class _Timers(_BasicInterface):
         object_path = "/Timers"
@@ -466,10 +469,7 @@ class DBus2VDR(object):
         self.status_change_callbacks = []
         self.vdr_name = "de.tvdr.vdr" + (
             str(instance_id) if instance_id else "")
-        if bus:
-            self.bus = bus
-        else:
-            self.bus = pydbus.SystemBus()
+        self.bus = bus if bus else pydbus.SystemBus()
         self.dbus = self.bus.get('.DBus')
         if watchdog is True:
             self.Signals = self._Signals(self.bus, self.vdr_name)
