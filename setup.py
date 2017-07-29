@@ -6,4 +6,5 @@ setup(name='pydbus2vdr',
       author_email='seahawk1986@gmx.de',
       url='https://github.com/seahawk1986/python-pydbus2vdr',
       py_modules=['pydbus2vdr'],
+      requires=['pydbus(>=0.6.0)'],
       )
