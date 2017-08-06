@@ -26,6 +26,7 @@ class DBus2VDR(object):
             'Vps',
             'RunningStatus',
             'ParentalRating',
+            'HasTimer',
             'ContentID',
             'Content'
         ]
@@ -176,11 +177,23 @@ class DBus2VDR(object):
         def Now(self, channel):
             return self._proxy.Now(str(channel))
 
+        def now(self, channel):
+            for entry in self.Now(channel)[2]:
+                return DBus2VDR.EPGEntry(*entry)
+
         def Next(self, channel):
             return self._proxy.Next(str(channel))
 
+        def next(self, channel):
+            for entry in self.Now(channel)[2]:
+                return DBus2VDR.EPGEntry(*entry)
+
         def At(self, channel, time):
             return self._proxy.At(str(channel), int(time))
+
+        def at(self, channel, time):
+            for entry in self.At(channel, time)[2]:
+                return DBus2VDR.EPGEntry(*entry)
 
     class _Recordings(_BasicInterface):
         object_path = "/Recordings"
