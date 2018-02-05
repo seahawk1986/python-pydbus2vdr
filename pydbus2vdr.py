@@ -504,7 +504,7 @@ class DBus2VDR(object):
                          "_Channels"):
                 try:
                     obj = getattr(self, item)(bus=self.bus)
-                except GLibError:
+                except GLib.GError:
                     self.vdr_isrunning = False
                     self.isinitialized = False
                 else:
