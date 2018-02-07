@@ -497,6 +497,7 @@ class DBus2VDR(object):
             logging.exception(e)
 
     def _startup(self, *args):
+        self.vdr_isrunning = True
         if not self.isinitialized:
             for item in ("_Plugins", "_Remote", "_Recordings", "_VDR",
                          "_Timers", "_Status", "_Skin", "_Shutdown",
@@ -509,7 +510,6 @@ class DBus2VDR(object):
                     self.isinitialized = False
                 else:
                     setattr(self, item.lstrip("_"), obj)
-                    self.vdr_isrunning = True
                     self.isinitialized = True
         self._on_status_change()
 
