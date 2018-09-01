@@ -503,9 +503,14 @@ class DBus2VDR(object):
                          "_Timers", "_Status", "_Skin", "_Shutdown",
                          "_Devices", "_EPG", "_Signals", "_Setup",
                          "_Channels"):
-                obj = getattr(self, item)(bus=self.bus)
-                setattr(self, item.lstrip("_"), obj)
-            self.isinitialized = True
+                try:
+                    obj = getattr(self, item)(bus=self.bus)
+                except GLib.GError:
+                    self.vdr_isrunning = False
+                    self.isinitialized = False
+                else:
+                    setattr(self, item.lstrip("_"), obj)
+                    self.isinitialized = True
         self._on_status_change()
 
     def _stop(self, *args):
