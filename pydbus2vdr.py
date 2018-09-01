@@ -317,7 +317,7 @@ class DBus2VDR(object):
             992: (reply message contains ABORT_MESSAGE of the shutdown-hooks)
             999: shutdown-hook returned a non-zero exit code
             """
-            return self._proxy.ConfirmShutdown(strtobool(ignore_user))
+            return self._proxy.ConfirmShutdown(ignore_user)
 
         def ManualStart(self):
             return self._proxy.ManualStart()
