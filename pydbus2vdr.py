@@ -319,6 +319,9 @@ class DBus2VDR(object):
             """
             return self._proxy.ConfirmShutdown(ignore_user)
 
+        def IsUserActive(self):
+            return self._proxy.IsUserActive()
+
         def ManualStart(self):
             return self._proxy.ManualStart()
 
