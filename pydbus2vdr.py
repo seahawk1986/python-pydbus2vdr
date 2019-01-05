@@ -499,6 +499,15 @@ class DBus2VDR(object):
         except Exception as e:
             logging.exception(e)
 
+    @property
+    def vdr_isready(self):
+        try:
+            status = self.VDR.status()
+        except (GLib.GError, AttributeError):
+            return False
+        else:
+            return True if status == "Ready" else False
+
     def _startup(self, *args):
         self.vdr_isrunning = True
         if not self.isinitialized:
