@@ -502,7 +502,7 @@ class DBus2VDR(object):
     @property
     def vdr_isready(self):
         try:
-            status = self.VDR.status()
+            status = self.VDR.Status()
         except (GLib.GError, AttributeError):
             return False
         else:
